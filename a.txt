@@ -1,0 +1,40 @@
+private void hienThiDanhSachPhong() {
+       PhongBanDao phongBanDao = new PhongBanImpl();
+
+        //lấy danh sách phòng
+        List<PhongBan> lstPB = phongBanDao.layDanhSach();
+        
+        PhongBan root = new PhongBan();
+        root.setMaPhong("");
+        root.setTenPhong("---Chọn Khoa---");
+        lstPB.add(0, root);
+
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        //Duyệt từng thông tin để đưa vào model 
+        for (PhongBan objPB : lstPB) {
+            model.addElement(objPB);
+        }
+        cboPhongBan.setModel(model);
+
+        //chỉnh sửa lại trước khi lên model
+        cboPhongBan.setRenderer(new PhongBanRender());
+    }
+
+
+
+
+//Khai báo từ khoá
+        String tuKhoa = txtTuKhoa.getText();
+        
+        
+        PhongBan objPB = (PhongBan) cboPhongBan.getSelectedItem();
+        
+        String maPhong = objPB.getMaPhong();
+
+
+
+if (tuKhoa.isEmpty() && maPhong.isEmpty()){
+            lstNhanVien = nhanVienDao.layDanhSach();
+        }else {
+            lstNhanVien = nhanVienDao.timKiemNhanVien(tuKhoa, maPhong);
+        }
